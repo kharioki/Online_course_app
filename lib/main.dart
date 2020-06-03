@@ -1,4 +1,6 @@
 import 'package:courses_app/constants.dart';
+import 'package:courses_app/details_screen.dart';
+import 'package:courses_app/model/category.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -15,7 +17,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Online Course App',
       theme: ThemeData(),
-      home: HomeScreen(),
+      home: DetailsScreen(),
     );
   }
 }
@@ -84,13 +86,36 @@ class HomeScreen extends StatelessWidget {
             SizedBox(height: 30),
             Expanded(
               child: StaggeredGridView.countBuilder(
+                padding: EdgeInsets.all(0),
                 crossAxisCount: 2,
-                itemCount: 5,
+                itemCount: categories.length,
                 crossAxisSpacing: 20,
                 mainAxisSpacing: 20,
                 itemBuilder: (context, index) => Container(
-                  height: 100,
-                  color: kBlueColor,
+                  padding: EdgeInsets.all(20),
+                  height: index.isEven ? 200 : 240,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    image: DecorationImage(
+                      image: AssetImage(categories[index].image),
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        categories[index].name,
+                        style: kTitleTextStyle,
+                      ),
+                      Text(
+                        '${categories[index].numOfCourses} Courses',
+                        style: TextStyle(
+                          color: kTextColor.withOpacity(.5),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 staggeredTileBuilder: (index) => StaggeredTile.fit(1),
               ),
